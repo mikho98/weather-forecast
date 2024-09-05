@@ -22,7 +22,11 @@ function showWeatherDetails(response) {
   );
   weatherDescriptionElement.innerHTML = `${weatherDescription}`;
 
-  console.log(response.data.condition.description);
+  //display humidity and wind speed
+  let humidityLabel = document.querySelector("#humidity");
+  let windSpeedLabel = document.querySelector("#wind-speed");
+  humidityLabel.innerHTML = response.data.temperature.humidity;
+  windSpeedLabel.innerHTML = response.data.wind.speed;
 }
 
 function searchCity(event) {
