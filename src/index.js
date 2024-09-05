@@ -1,22 +1,42 @@
-let apiKey = "fd0bc378da5bt009ca78cd94a3b94doa";
-let units = "metric";
+function showWeatherDetails(response) {
+  //  function displays weather data onto screen
 
-function showWeather(response) {
+  // display searched city
+  let currentCityElement = document.querySelector("#current-city");
+  currentCityElement.innerHTML = `${response.data.city}`;
+
+  // diplay temperature level
+  let currentTemp = document.querySelector("#current-temperature-value");
   let tempLevel = Math.round(response.data.temperature.current);
-
-  let currentTemp = document.querySelector(".current-temperature-value");
   currentTemp.innerHTML = tempLevel;
+
+  // display date
+  let currentDateELement = document.querySelector("#current-date");
+  let cityDate = new Date(response.data.time * 1000);
+  currentDateELement.innerHTML = formatDate(cityDate);
+
+  //display weather description
+  let weatherDescription = response.data.condition.description;
+  let weatherDescriptionElement = document.querySelector(
+    "#weather-description"
+  );
+  weatherDescriptionElement.innerHTML = `${weatherDescription}`;
+
+  console.log(response.data.condition.description);
 }
 
-function search(event) {
+function searchCity(event) {
+  // function that obtains data about searched city
+
   event.preventDefault();
   let searchInputElement = document.querySelector("#search-input");
-  let cityElement = document.querySelector("#current-city");
+
   let city = searchInputElement.value;
-  cityElement.innerHTML = city;
+  let units = "metric";
+  let apiKey = "fd0bc378da5bt009ca78cd94a3b94doa";
 
   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=${units}`;
-  axios.get(apiUrl).then(showWeather);
+  axios.get(apiUrl).then(showWeatherDetails);
 }
 
 function formatDate(date) {
@@ -47,9 +67,4 @@ function formatDate(date) {
 }
 
 let searchForm = document.querySelector("#search-form");
-searchForm.addEventListener("submit", search);
-
-let currentDateELement = document.querySelector("#current-date");
-let currentDate = new Date();
-
-currentDateELement.innerHTML = formatDate(currentDate);
+searchForm.addEventListener("submit", searchCity);
