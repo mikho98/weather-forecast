@@ -27,6 +27,11 @@ function showWeatherDetails(response) {
   let windSpeedLabel = document.querySelector("#wind-speed");
   humidityLabel.innerHTML = response.data.temperature.humidity;
   windSpeedLabel.innerHTML = response.data.wind.speed;
+
+  // change weather icon
+  let weatherIcon = document.querySelector("#weather-icon");
+  let iconImage = `<img src="${response.data.condition.icon_url}" alt="weather icon">`;
+  weatherIcon.innerHTML = iconImage;
 }
 
 function searchCity(event) {
