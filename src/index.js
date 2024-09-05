@@ -75,5 +75,17 @@ function formatDate(date) {
   return `${formattedDay} ${hours}:${minutes}`;
 }
 
+function showParisDetails() {
+  let city = "paris";
+  let units = "metric";
+  let apiKey = "fd0bc378da5bt009ca78cd94a3b94doa";
+
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(showWeatherDetails);
+}
+
+// show details of Paris when weather app is loaded
+showParisDetails();
+
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", searchCity);
