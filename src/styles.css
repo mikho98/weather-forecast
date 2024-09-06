@@ -101,6 +101,7 @@ body {
     display: flex;
     justify-content: space-around;
     margin-top: 25px;
+    width: 100%;
   }
 
   .forecast-day {
@@ -112,7 +113,12 @@ body {
   .forecast-date {
     margin-bottom: 10px;
   }
+
+  .forecast-icon {
+    width: 100%;
+  }
   
+
   .forecast-temps {
     color: #f65282;;
     margin-top: 10px;

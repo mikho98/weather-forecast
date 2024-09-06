@@ -99,8 +99,10 @@ function showForecast(response) {
       forecastHTML += `
           <div class="forecast-day">
             <div class="forecast-date">${formatForecastDate(day.time)}</div>
-            <div class="forecast-icon">
-              <img src="${day.condition.icon_url}" alt="weather-icon" />
+            <div class="forecast-icon-container">
+              <img src="${
+                day.condition.icon_url
+              }" alt="weather-icon" class="forecast-icon" />
             </div>
             <div class="forecast-temps"><strong>${maxTemp}º</strong> ${minTemp}º</div>
           </div>
