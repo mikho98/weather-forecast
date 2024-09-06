@@ -1,3 +1,47 @@
+function searchCity(event) {
+  // function that obtains data about searched city
+
+  event.preventDefault();
+  let searchInputElement = document.querySelector("#search-input");
+
+  let city = searchInputElement.value;
+  let units = "metric";
+  let apiKey = "fd0bc378da5bt009ca78cd94a3b94doa";
+
+  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=${units}`;
+  axios.get(apiUrl).then(showWeatherDetails);
+
+  let forecastUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
+  axios.get(forecastUrl).then(showForecast);
+}
+
+function formatDate(date) {
+  let minutes = date.getMinutes();
+  let hours = date.getHours();
+  let day = date.getDay();
+
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+
+  if (hours < 10) {
+    hours = `0${hours}`;
+  }
+
+  let days = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+
+  let formattedDay = days[day];
+  return `${formattedDay} ${hours}:${minutes}`;
+}
+
 function showWeatherDetails(response) {
   //  function displays weather data onto screen
 
@@ -34,45 +78,38 @@ function showWeatherDetails(response) {
   weatherIcon.innerHTML = iconImage;
 }
 
-function searchCity(event) {
-  // function that obtains data about searched city
+function formatForecastDate(timestamp) {
+  let forecastDate = new Date(timestamp * 1000);
 
-  event.preventDefault();
-  let searchInputElement = document.querySelector("#search-input");
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat"];
 
-  let city = searchInputElement.value;
-  let units = "metric";
-  let apiKey = "fd0bc378da5bt009ca78cd94a3b94doa";
-
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=${units}`;
-  axios.get(apiUrl).then(showWeatherDetails);
+  let day = days[forecastDate.getDay()];
+  return day;
 }
 
-function formatDate(date) {
-  let minutes = date.getMinutes();
-  let hours = date.getHours();
-  let day = date.getDay();
+function showForecast(response) {
+  forecastHTML = ``;
+  forecastDays = response.data.daily;
 
-  if (minutes < 10) {
-    minutes = `0${minutes}`;
-  }
+  forecastDays.forEach(function (day, index) {
+    if (index < 5) {
+      let minTemp = Math.round(day.temperature.minimum);
+      let maxTemp = Math.round(day.temperature.maximum);
 
-  if (hours < 10) {
-    hours = `0${hours}`;
-  }
+      forecastHTML += `
+          <div class="forecast-day">
+            <div class="forecast-date">${formatForecastDate(day.time)}</div>
+            <div class="forecast-icon">
+              <img src="${day.condition.icon_url}" alt="weather-icon" />
+            </div>
+            <div class="forecast-temps"><strong>${maxTemp}º</strong> ${minTemp}º</div>
+          </div>
+    `;
+    }
+  });
 
-  let days = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-
-  let formattedDay = days[day];
-  return `${formattedDay} ${hours}:${minutes}`;
+  let forcastElement = document.querySelector("#forecast");
+  forcastElement.innerHTML = forecastHTML;
 }
 
 function showParisDetails() {
@@ -82,6 +119,9 @@ function showParisDetails() {
 
   let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=${units}`;
   axios.get(apiUrl).then(showWeatherDetails);
+
+  let forecastUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
+  axios.get(forecastUrl).then(showForecast);
 }
 
 // show details of Paris when weather app is loaded
