@@ -114,8 +114,9 @@ function showForecast(response) {
   forcastElement.innerHTML = forecastHTML;
 }
 
-function showParisDetails() {
-  let city = "paris";
+
+function showCityWeather(city) {
+  // shows weather forecast of specified city
   let units = "metric";
   let apiKey = "fd0bc378da5bt009ca78cd94a3b94doa";
 
@@ -126,8 +127,9 @@ function showParisDetails() {
   axios.get(forecastUrl).then(showForecast);
 }
 
-// show details of Paris when weather app is loaded
-showParisDetails();
+// show weather details of Johannesburg when weather app is loaded
+let city = "joburg";
+showCityWeather(city);
 
 let searchForm = document.querySelector("#search-form");
 searchForm.addEventListener("submit", searchCity);
