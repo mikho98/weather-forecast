@@ -1,20 +1,3 @@
-function searchCity(event) {
-  // function that obtains data about searched city
-
-  event.preventDefault();
-  let searchInputElement = document.querySelector("#search-input");
-
-  let city = searchInputElement.value;
-  let units = "metric";
-  let apiKey = "fd0bc378da5bt009ca78cd94a3b94doa";
-
-  let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=${units}`;
-  axios.get(apiUrl).then(showWeatherDetails);
-
-  let forecastUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
-  axios.get(forecastUrl).then(showForecast);
-}
-
 function formatDate(date) {
   let minutes = date.getMinutes();
   let hours = date.getHours();
@@ -114,7 +97,6 @@ function showForecast(response) {
   forcastElement.innerHTML = forecastHTML;
 }
 
-
 function showCityWeather(city) {
   // shows weather forecast of specified city
   let units = "metric";
@@ -125,6 +107,18 @@ function showCityWeather(city) {
 
   let forecastUrl = `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}`;
   axios.get(forecastUrl).then(showForecast);
+}
+
+function searchCity(event) {
+  // function that obtains data about searched city
+
+  event.preventDefault();
+  let searchInputElement = document.querySelector("#search-input");
+
+  let city = searchInputElement.value;
+  showCityWeather(city);
+
+  searchInputElement.value = "";
 }
 
 // show weather details of Johannesburg when weather app is loaded
